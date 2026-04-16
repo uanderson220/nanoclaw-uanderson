@@ -197,6 +197,16 @@ function buildVolumeMounts(
     });
   }
 
+  // Google Drive credentials directory
+  const gdriveDir = path.join(homeDir, '.gdrive-mcp');
+  if (fs.existsSync(gdriveDir)) {
+    mounts.push({
+      hostPath: gdriveDir,
+      containerPath: '/home/node/.gdrive-mcp',
+      readonly: false,
+    });
+  }
+
   // Per-group IPC namespace: each group gets its own IPC directory
   // This prevents cross-group privilege escalation via IPC
   const groupIpcDir = resolveGroupIpcPath(group.folder);
